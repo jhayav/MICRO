@@ -1,12 +1,13 @@
-all: p1.exe
+EXE = pract1a.exe
 
-p1.exe: p1.obj
-	tlink /v p1
+all: $(EXE)
 
-p1.obj: p1.asm
-	tasm /zi p1.asm
+pract1a.exe: pract1a.obj
+	tlink /v pract1a
 
-.PHONY : clean
+pract1a.obj: pract1a.asm
+	tasm /zi pract1a.asm
+
 clean: 
 	del *.obj
 	del *.exe

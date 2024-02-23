@@ -3,7 +3,7 @@
 ;**************************************************************************
 ; DEFINICION DEL SEGMENTO DE DATOS
 DATOS SEGMENT
-;-- rellenar con los datos solicitados
+	dato DW ?
 DATOS ENDS
 ;**************************************************************************
 ; DEFINICION DEL SEGMENTO DE PILA
@@ -32,15 +32,17 @@ MOV SP, 64 ; CARGA EL PUNTERO DE PILA CON EL VALOR MAS ALTO
 ; FIN DE LAS INICIALIZACIONES
 ; COMIENZO DEL PROGRAMA
 MOV AX, 5CC5H
-MOV BH, CBH
+MOV BH, 0CBH
 MOV DX, 3412H
 MOV BL, -23
-MOV ES, 11001011B
-MOV DS, CABEH
+MOV dato, 11001011b
+MOV ES, dato
+MOV dato, 0CABEH
+MOV DS, dato
 MOV [BX]+15, DX
-MOV CL, [51222H]
-MOV CH, [51223H]
-MOV [40404H], DH
+MOV CL, [5000H:1222H]
+MOV CH, [5000H:1223H]
+MOV [4000H:0404H], DH
 MOV AX, [SI]
 MOV BX, [BP+10]
 ; FIN DEL PROGRAMA
