@@ -5,7 +5,9 @@
 ;**************************************************************************
 
 DATOS SEGMENT
-	matriz: dw 1, 0, 0, 0, 1, 0, 0, 0, 1 
+	matriz dw 1, 0, 0
+           dw 0, 1, 0
+           dw 0, 0, 1 
     resultado dw 0 
     TEXTO1 DB " La matriz NO es I",13,10,"$"
     TEXTO2 DB " La matriz es I ",13,10,"$"
@@ -44,16 +46,19 @@ MOV SP, 64 ; CARGA EL PUNTERO DE PILA CON EL VALOR MAS ALTO
 ; FIN DE LAS INICIALIZACIONES
 ; COMIENZO DEL PROGRAMA
 
+MOV AH,9	; BORRA LA PANTALLA
+MOV DX, OFFSET CLR_PANT
+INT 21H
 MOV BX, 0 ; indice al numero de filas
 MOV DI, 0 ; indidce al nuemro de columnas
 bfilas: 
     CMP BX, 6
-    JGE fin
+    JGE exito
     JMP bcolumnas
 bcolumnas:
     CMP DI, 6
     JGE b1
-    MOV AX, matriz[BX][DI]
+    MOV AX, DS:matriz[BX][DI]
     CMP DI, BX
     JE diagonal
     JMP resto
@@ -75,23 +80,24 @@ b1:
 
 
 noexito:
-    MOV AH,9	; BORRA LA PANTALLA
-	MOV DX, OFFSET CLR_PANT
-	INT 21H
-   
-    MOV DX, OFFSET TEXTO2		; La matriz NO es I ...
+    MOV DX, OFFSET TEXTO1		; La matriz NO es I ...
 	MOV AH,9
 	INT 21H
-fin: 
-    MOV AH,9	; BORRA LA PANTALLA
-	MOV DX, OFFSET CLR_PANT
-	INT 21H
-
+    jmp fin
+exito: 
     MOV DX, OFFSET TEXTO2		; La matriz es I ...
 	MOV AH,9
 	INT 21H
+    jmp fin
 
-
+fin:; FIN DEL PROGRAMA
+MOV AX, 4C00H
+INT 21H
+INICIO ENDP
+; FIN DEL SEGMENTO DE CODIGO
+CODE ENDS
+; FIN DEL PROGRAMA INDICANDO DONDE COMIENZA LA EJECUCION
+END INICIO
 ;imprimirMatriz:
 ;    MOV CX, 3
 ;    fila_loop:
@@ -140,15 +146,3 @@ fin:
 ;
 ;no_identidad:
 ;    mov resultado, 'N' ; Si no es la matriz identidad
-
-fin_programa:
-    ret
-
-; FIN DEL PROGRAMA
-MOV AX, 4C00H
-INT 21H
-INICIO ENDP
-; FIN DEL SEGMENTO DE CODIGO
-CODE ENDS
-; FIN DEL PROGRAMA INDICANDO DONDE COMIENZA LA EJECUCION
-END INICIO

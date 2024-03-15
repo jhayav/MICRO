@@ -1,18 +1,12 @@
-EXE = pract1a.exe pract1c.exe
+EXE = pract2a.exe
 
 all: $(EXE)
 
-pract1a.exe: pract1a.obj
-	tlink /v pract1a
+pract2a.exe: pract2a.obj
+	tlink /v pract2a
 
-pract1a.obj: pract1a.asm
-	tasm /zi pract1a.asm
-
-pract1c.exe: pract1c.obj
-	tlink /v pract1c
-
-pract1c.obj: pract1c.asm
-	tasm /zi pract1c.asm
+pract2a.obj: pract2a.asm
+	tasm /zi pract2a.asm
 
 clean: 
 	del *.obj
